@@ -1,0 +1,53 @@
+class node{
+    public:
+    char val;
+    bool terminal;
+    map<char,node*>child;
+    node(char val){
+        this->val=val;
+        terminal=false;
+    }
+};
+class Trie {
+public:
+    node*root;
+    Trie() {
+        root=new node('\0');
+    }
+    
+    void insert(string w) {
+        node*temp=root;
+        for(int i=0;i<w.length();i++){
+            char ch=w[i];
+            if(temp->child.count(ch)){
+                temp=temp->child[ch];
+            }
+            else{
+                node*n=new node(ch);
+                temp->child[ch]=n;
+                temp=n;
+            }
+        }
+        temp->terminal=true;
+    }
+    
+    bool search(string w) {
+        node*temp=root;
+        for(int i=0;i<w.length();i++){
+            char ch=w[i];
+            if(temp->child.count(ch))   temp=temp->child[ch];
+            else    return false;
+        }
+        return temp->terminal;
+    }
+    
+    bool startsWith(string p) {
+        node*temp=root;
+        for(int i=0;i<p.length();i++){
+            char ch=p[i];
+            if(temp->child.count(ch))   temp=temp->child[ch];
+            else    return false;
+        }
+        return true;
+    }
+};
